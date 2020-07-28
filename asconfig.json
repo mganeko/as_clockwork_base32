@@ -1,0 +1,17 @@
+{
+  "targets": {
+    "debug": {
+      "binaryFile": "build/base32_debug.wasm",
+      "textFile": "build/base32_debug.wat",
+      "sourceMap": true,
+      "debug": true
+    },
+    "release": {
+      "binaryFile": "build/base32.wasm",
+      "textFile": "build/base32.wat",
+      "sourceMap": true,
+      "optimize": true
+    }
+  },
+  "options": {}
+}

@@ -1,0 +1,27 @@
+{
+  "name": "as_clockwork_base32",
+  "version": "0.8.0",
+  "description": "AssemblyScript implementation of Clockwork Base32",
+  "main": "index.js",
+  "scripts": {
+    "test_org": "echo \"Error: no test specified\" && exit 1",
+    "test_index": "node tests/index.js",
+    "test": "node tests/base.js",
+    "asbuild:untouched": "asc assembly/base32.ts --target debug",
+    "asbuild:optimized": "asc assembly/base32.ts --target release",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized"
+  },
+  "keywords": [
+    "base32",
+    "assemblyscript",
+    "wasm"
+  ],
+  "author": "mganeko",
+  "license": "MIT",
+  "dependencies": {
+    "@assemblyscript/loader": "^0.14.6"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.14.6"
+  }
+}
