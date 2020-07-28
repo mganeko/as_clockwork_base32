@@ -42,27 +42,44 @@ export function encode32(arr: Uint8Array): string {
   return str;
 }
 
-export function encode32arr(arr: Uint8Array) : Uint8Array {
-  const newArr = _splitBytesBy5bits(arr);
-  return newArr;
-}
+// export function encode32arr(arr: Uint8Array) : Uint8Array {
+//   const newArr = _splitBytesBy5bits(arr);
+//   return newArr;
+// }
 
 /**
  * stringを受け取り、clockwork base32 デコードしたバイト列(Uint8Array)を返します
  * @param {string}} str - 入力文字列
  * @return {Uint8Array} - デコード結果
  */
-export function decode32(str: string) : Uint8Array {
+export function decode32(str: string): Uint8Array {
   const arr = new Uint8Array(str.length);
 
   for (let i = 0; i < str.length; i++) {
     const s = str.charAt(i);
-    const n = _decodeByte(s);
-    arr[i] = n;
+    const u = _decodeByte(s);
+    arr[i] = u;
   }
 
   const byteArray = _pack5bitsArrayAsBytes(arr);
   return byteArray;
+}
+
+/**
+ * stringを受け取り、clockwork base32 デコードしたバイト列を文字列として返します
+ * @param {string} str - 入力文字列
+ * @return {string} - デコード結果
+ */
+export function decode32str(str: string): string {
+  const arr = decode32(str);
+
+  let decodedStr = '';
+  for (let i = 0; i < arr.length; i++) {
+    const u = arr[i];
+    decodedStr += String.fromCharCode(u);
+  }
+
+  return decodedStr;
 }
 
 // split 8bit array --> 5bit array
@@ -144,7 +161,7 @@ function _pack5bitsArrayAsBytes(srcArr: Uint8Array): Uint8Array {
   for (let srcIdx = 0; srcIdx < srcLen; srcIdx++) {
     const srcByte = srcArr[srcIdx];
     for (let srcBitPos = 4; srcBitPos >= 0; srcBitPos--) { // srcBitPos : xxx43210
-      const bit1 : u8 = (srcByte >> (srcBitPos as u8)) & 0b00000001;
+      const bit1: u8 = (srcByte >> (srcBitPos as u8)) & 0b00000001;
       destByte = destByte << 1;
       destByte = (destByte | bit1);
       destBitLength++;
@@ -169,7 +186,7 @@ function _pack5bitsArrayAsBytes(srcArr: Uint8Array): Uint8Array {
   //return new Uint8Array(destArr);
   //return destArr.subarray(0, destIndex - 1);
 
-  
+
   const sub = new Uint8Array(destIndex);
   for (let i = 0; i < destIndex; i++) {
     sub[i] = destArr[i];
@@ -266,17 +283,16 @@ function _initMap(): void {
 }
 
 
-function _decodeByte(s: string) : u8{
-  if (! _initMapFlag) {
+function _decodeByte(s: string): u8 {
+  if (!_initMapFlag) {
     _initMap();
   }
 
   const sUpper = s.toUpperCase();
-  const n : u8 = _decodeMap.get(sUpper) as u8;
-  // if ((n === null) || n === undefined) {
-  //   //console.error('Byte string decode ERROR', s, n);
-  //   throw 'Byte string decode ERROR';
-  // }
-  return n;
+  if (!_decodeMap.has(sUpper)) {
+    throw 'Byte string decode ERROR';
+  }
+  const u: u8 = _decodeMap.get(sUpper) as u8;
+  return u;
 }
 
