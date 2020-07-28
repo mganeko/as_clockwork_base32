@@ -57,15 +57,12 @@ export function decode32(str: string) : Uint8Array {
 
   for (let i = 0; i < str.length; i++) {
     const s = str.charAt(i);
-    //const n = _decodeByte(s);
-    //arr[i] = n;
-    arr[i] = i;
+    const n = _decodeByte(s);
+    arr[i] = n;
   }
 
-  return arr;
-
-  // const byteArray = _pack5bitsArrayAsBytes(arr);
-  // return byteArray;
+  const byteArray = _pack5bitsArrayAsBytes(arr);
+  return byteArray;
 }
 
 // split 8bit array --> 5bit array
@@ -270,6 +267,10 @@ function _initMap(): void {
 
 
 function _decodeByte(s: string) : u8{
+  if (! _initMapFlag) {
+    _initMap();
+  }
+
   const sUpper = s.toUpperCase();
   const n : u8 = _decodeMap.get(sUpper) as u8;
   // if ((n === null) || n === undefined) {
