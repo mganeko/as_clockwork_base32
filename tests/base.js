@@ -94,6 +94,30 @@ console.log('=== total report =====');
 console.log(' case count=', cases);
 console.log(' ERROR count=', erros);
 
+
+
+// --- benchmark ---
+// console.time('bench');
+
+// const arr = new Uint8Array([0, 0]);
+// //const arr = new Uint8Array([0, 0, 0, 0, 0]);
+// for (let ii = 0; ii <= 255; ii++) {
+//   for (let i = 0; i <= 255; i++) {
+//     arr[0] = i;
+//     for (let j = 0; j <= 255; j++) {
+//       arr[1] = j;
+//       const ptr = myModule.__allocArray(myModule.Uint8Array_ID, arr);
+//       const encodePtr = myModule.encode32(ptr);
+//       const encodedStr = myModule.__getString(encodePtr);
+    
+//       const ptr2 = myModule.__allocString(encodedStr);
+//       const decodePtr = myModule.decode32(ptr2);
+//       const decodedArr = myModule.__getUint8Array(decodePtr);
+//     }
+//   }
+// }
+// console.timeEnd('bench');
+
 // ---- exit ---
 if (erros > 0) {
   process.exit(1);
